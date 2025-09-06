@@ -16,7 +16,6 @@ from torch.nn import Linear
 import torch.nn as nn
 from torch import Tensor
 import torch.nn.functional as F
-from model.EEGNet import EegNet
 import math
 from torch.nn.parameter import Parameter
 from torch.nn.modules.module import Module
@@ -116,17 +115,6 @@ class MyGCN(nn.Module):
     def __init__(self):
         super(MyGCN, self).__init__()
 
-        self.eegNet = EegNet(chunk_size= 5000,
-                 num_electrodes= 30,
-                 in_depth = 1,
-                 F1= 8,
-                 F2= 16,
-                 D= 2,
-                 num_classes= 20,
-                 kernel_1= 64,
-                 kernel_2= 16,
-                 dropout = 0.25,
-                 activation = False)
 
         self.gcn_0 = GraphAttentionLayer(15, 20,
                                                dropout=0.3, alpha=0.1, concat=True)
@@ -227,5 +215,6 @@ class MyGCN(nn.Module):
 
 
         out = self.classifier(fused)
+
 
         return out
